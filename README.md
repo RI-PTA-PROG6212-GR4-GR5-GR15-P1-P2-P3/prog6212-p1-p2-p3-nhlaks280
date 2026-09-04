@@ -44,3 +44,8 @@ The project includes a GitHub Actions workflow that checks that all required Par
 ### AI Use Disclosure
 
 AI tools were used as a learning and development aid during this project. They assisted with explanations, planning, database design guidance, API endpoint planning, documentation and troubleshooting. The final project structure, files and submitted work were reviewed and understood by the student.
+
+
+### Database Validation
+
+The RaceDay SQL script was tested using Microsoft SQL Server. The database was created successfully, the tables were created with their relationships and constraints, and the sample records were inserted successfully.
