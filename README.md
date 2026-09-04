@@ -29,6 +29,7 @@ The database script includes primary keys, foreign keys, constraints and sample 
 
 ### Roles
 
+Organisers are responsible for managing events, categories and participant results, while participants can enrol in events and view their results.
 The system supports two user roles:
 
 - Organiser
