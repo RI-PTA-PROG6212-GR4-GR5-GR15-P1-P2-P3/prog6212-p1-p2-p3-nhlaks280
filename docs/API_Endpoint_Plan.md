@@ -23,3 +23,24 @@
 | GET | /api/events/{eventId}/results | View results for an event | Organiser | None | 200 OK |
 | POST | /api/results | Capture a participant result | Organiser | Result details | 201 Created |
 | PUT | /api/results/{id} | Update a participant result | Organiser | Updated result details | 200 OK |
+
+
+## API Functional Areas
+
+### Authentication
+The authentication endpoints allow users to register and securely log in to the RaceDay system.
+
+### User Profile
+Authenticated users can view and update their profile information.
+
+### Events
+Organisers can create, update and delete events, while users can view available events.
+
+### Categories
+Organisers can manage event categories used by RaceDay events.
+
+### Enrolments
+Participants can enrol in event categories and manage their own enrolments.
+
+### Results
+Organisers can record and update race results, while participants can view their own results.
