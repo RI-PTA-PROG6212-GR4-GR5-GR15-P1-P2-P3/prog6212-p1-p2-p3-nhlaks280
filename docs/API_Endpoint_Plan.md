@@ -44,3 +44,8 @@ Participants can enrol in event categories and manage their own enrolments.
 
 ### Results
 Organisers can record and update race results, while participants can view their own results.
+
+
+## Access Control
+
+Public endpoints can be accessed without authentication. Organiser endpoints are restricted to users with the Organiser role, while participant endpoints are restricted to users with the Participant role.
