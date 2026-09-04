@@ -1,9 +1,9 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/mr-hqvA6)
+﻿[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/mr-hqvA6)
 ## RaceDay System
 
 RaceDay is an event management system designed to manage running events, event categories, participant enrolments and race results.
 
-### Part 1 � System Planning and Database
+### Part 1 – System Planning and Database
 
 This section contains the system planning and database design for the RaceDay system.
 
@@ -49,3 +49,17 @@ AI tools were used as a learning and development aid during this project. They a
 ### Database Validation
 
 The RaceDay SQL script was tested using Microsoft SQL Server. The database was created successfully, the tables were created with their relationships and constraints, and the sample records were inserted successfully.
+
+
+### Project Structure
+
+prog6212-p1-p2-p3-nhlaks280/
+│
+├── docs/
+│   ├── API_Endpoint_Plan.md
+│   ├── GitHub_Actions_Success.png
+│   ├── RaceDay_Database.sql
+│   └── RaceDay_ERD.drawio.png
+│
+├── .gitignore
+└── README.md
