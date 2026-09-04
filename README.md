@@ -39,3 +39,8 @@ The system supports two user roles:
 The project includes a GitHub Actions workflow that checks that all required Part 1 files are present.
 
 ![GitHub Actions Success](docs/GitHub_Actions_Success.png)
+
+
+### AI Use Disclosure
+
+AI tools were used as a learning and development aid during this project. They assisted with explanations, planning, database design guidance, API endpoint planning, documentation and troubleshooting. The final project structure, files and submitted work were reviewed and understood by the student.
