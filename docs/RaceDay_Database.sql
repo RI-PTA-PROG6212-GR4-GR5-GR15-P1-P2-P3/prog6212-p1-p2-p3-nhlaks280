@@ -1,5 +1,7 @@
 -- RaceDay Database Script
 -- PROG6212 Part 1: System Planning and Database
+-- The database uses six related tables to manage users,
+-- events, categories, enrolments and race results.
 
 CREATE DATABASE RaceDay;
 GO
