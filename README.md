@@ -67,6 +67,10 @@ prog6212-p1-p2-p3-nhlaks280/
  .gitignore
  README.md
 
+ ### Database Design
+
+The ERD and SQL database script were designed together so that the entities, primary keys, foreign keys and relationships represented in the diagram correspond with the database structure.
+
 
  ### Project Demonstration
 
