@@ -75,3 +75,8 @@ The ERD and SQL database script were designed together so that the entities, pri
  ### Project Demonstration
 
 [RaceDay Project Demonstration Video](https://youtu.be/8KiwUs2XoSE)
+
+
+### Part 1 Status
+
+Part 1 includes the system planning documentation, ERD, API endpoint plan, SQL database script, sample data, GitHub Actions validation and project demonstration.
