@@ -15,6 +15,7 @@ This section contains the system planning and database design for the RaceDay sy
 
 ### Database
 
+The database design supports the relationship between organisers, participants, events, categories, enrolments and results.
 The database is implemented using Microsoft SQL Server and includes:
 
 - Users
@@ -49,6 +50,7 @@ AI tools were used as a learning and development aid during this project. They a
 ### Database Validation
 
 The RaceDay SQL script was tested using Microsoft SQL Server. The database was created successfully, the tables were created with their relationships and constraints, and the sample records were inserted successfully.
+
 
 
 ### Project Structure
