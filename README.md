@@ -54,12 +54,17 @@ The RaceDay SQL script was tested using Microsoft SQL Server. The database was c
 ### Project Structure
 
 prog6212-p1-p2-p3-nhlaks280/
-│
-├── docs/
-│   ├── API_Endpoint_Plan.md
-│   ├── GitHub_Actions_Success.png
-│   ├── RaceDay_Database.sql
-│   └── RaceDay_ERD.drawio.png
-│
-├── .gitignore
-└── README.md
+
+ docs/
+    API_Endpoint_Plan.md
+    GitHub_Actions_Success.png
+    RaceDay_Database.sql
+    RaceDay_ERD.drawio.png
+
+ .gitignore
+ README.md
+
+
+ ### Project Demonstration
+
+[RaceDay Project Demonstration Video](https://youtu.be/8KiwUs2XoSE)
