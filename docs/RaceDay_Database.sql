@@ -2,6 +2,7 @@
 -- PROG6212 Part 1: System Planning and Database
 -- The database uses six related tables to manage users,
 -- events, categories, enrolments and race results.
+-- Constraints are used to protect data integrity and maintain valid relationships.
 
 CREATE DATABASE RaceDay;
 GO
