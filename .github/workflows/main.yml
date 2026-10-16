@@ -19,11 +19,16 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
+      - name: Locate solution file
+        shell: bash
+        run: |
+          find . -name "*.sln" -not -path "*/bin/*" -not -path "*/obj/*"
+
       - name: Restore dependencies
-        run: dotnet restore RaceDay.sln
+        run: dotnet restore RaceDay/RaceDay.sln
 
       - name: Build solution
-        run: dotnet build RaceDay.sln --configuration Release --no-restore
+        run: dotnet build RaceDay/RaceDay.sln --configuration Release --no-restore
 
       - name: Run automated tests
-        run: dotnet test RaceDay.sln --configuration Release --no-build --verbosity normal
+        run: dotnet test RaceDay/RaceDay.sln --configuration Release --no-build --verbosity normal
