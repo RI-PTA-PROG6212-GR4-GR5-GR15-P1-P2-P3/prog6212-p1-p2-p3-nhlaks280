@@ -1,29 +1,29 @@
-name: RaceDay Project Check
+
+name: RaceDay API Build and Test
 
 on:
   push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
-  project-check:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check required Part 1 files
-        run: |
-          test -f README.md
-          test -f docs/RaceDay_ERD.drawio.png
-          test -f docs/API_Endpoint_Plan.md
-          test -f docs/RaceDay_Database.sql
+      - name: Install .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
 
-      - name: Verify project structure
-        run: |
-          echo "RaceDay Part 1 files found successfully."
-          echo "Project structure check passed."
+      - name: Restore dependencies
+        run: dotnet restore RaceDay.sln
+
+      - name: Build solution
+        run: dotnet build RaceDay.sln --configuration Release --no-restore
+
+      - name: Run automated tests
+        run: dotnet test RaceDay.sln --configuration Release --no-build --verbosity normal
