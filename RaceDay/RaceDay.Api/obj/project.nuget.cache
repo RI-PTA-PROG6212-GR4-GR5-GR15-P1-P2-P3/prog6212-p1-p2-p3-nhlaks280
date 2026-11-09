@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Y1l+kN65Gls=",
+  "dgSpecHash": "Y9lLXeN7ToI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Student\\Source\\Repos\\prog6212-p1-p2-p3-nhlaks280\\RaceDay\\RaceDay.Api\\RaceDay.Api.csproj",
+  "projectFilePath": "C:\\Users\\Student\\source\\repos\\prog6212-p1-p2-p3-nhlaks280\\RaceDay\\RaceDay.Api\\RaceDay.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Student\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Student\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
