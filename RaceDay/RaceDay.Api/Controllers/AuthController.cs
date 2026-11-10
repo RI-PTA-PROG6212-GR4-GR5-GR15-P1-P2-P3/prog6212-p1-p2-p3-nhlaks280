@@ -37,6 +37,8 @@ public class AuthController : ControllerBase
 
     public record LoginRequest(string Email, string Password);
 
+    public record ProfilePictureRequest(string ImageUrl);
+
     [AllowAnonymous]
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
@@ -87,7 +89,8 @@ public class AuthController : ControllerBase
             user.FirstName,
             user.LastName,
             user.Email,
-            user.Role
+            user.Role,
+            user.ProfilePictureUrl
         });
     }
 
@@ -125,7 +128,49 @@ public class AuthController : ControllerBase
             user.FirstName,
             user.LastName,
             user.Email,
-            user.Role
+            user.Role,
+            user.ProfilePictureUrl
+        });
+    }
+
+    // PUT: api/auth/profile-picture
+    // Participants can update their own profile-picture URL.
+    [Authorize(Roles = "Participant")]
+    [HttpPut("profile-picture")]
+    public async Task<IActionResult> UpdateProfilePicture(
+        ProfilePictureRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.ImageUrl) ||
+            !Uri.TryCreate(
+                request.ImageUrl,
+                UriKind.Absolute,
+                out var imageUri) ||
+            imageUri.Scheme != Uri.UriSchemeHttps)
+        {
+            return BadRequest(
+                "A valid HTTPS image URL is required.");
+        }
+
+        var userIdValue = User.FindFirstValue(
+            ClaimTypes.NameIdentifier);
+
+        if (!int.TryParse(userIdValue, out var userId))
+            return Unauthorized();
+
+        var user = await _context.Users
+            .FirstOrDefaultAsync(u => u.UserID == userId);
+
+        if (user == null)
+            return NotFound("Participant account not found.");
+
+        user.ProfilePictureUrl = request.ImageUrl;
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            message = "Profile picture saved successfully.",
+            user.ProfilePictureUrl
         });
     }
 

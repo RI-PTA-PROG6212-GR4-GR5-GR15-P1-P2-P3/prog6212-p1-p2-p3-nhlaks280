@@ -1,0 +1,148 @@
+﻿@model RaceDay.Mvc.Models.RaceEventViewModel
+
+@{
+    ViewData["Title"] = "Edit Event";
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Edit Event</h2>
+
+        <a asp-controller="Organiser"
+           asp-action="Events"
+           class="btn btn-outline-secondary">
+            Back to Events
+        </a>
+    </div>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+
+            <form asp-controller="Organiser"
+                  asp-action="EditEvent"
+                  asp-route-id="@Model.EventID"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="EventID" />
+                <input type="hidden" asp-for="BannerUrl" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="EventName" class="form-label">
+                        Event Name
+                    </label>
+                    <input asp-for="EventName" class="form-control" />
+                    <span asp-validation-for="EventName"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label">
+                        Description
+                    </label>
+                    <textarea asp-for="Description"
+                              class="form-control"
+                              rows="4"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="EventDate" class="form-label">
+                        Event Date
+                    </label>
+                    <input asp-for="EventDate"
+                           type="datetime-local"
+                           class="form-control"
+                           value="@Model.EventDate.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="EventDate"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Location" class="form-label">
+                        Location
+                    </label>
+                    <input asp-for="Location" class="form-control" />
+                    <span asp-validation-for="Location"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="DistanceKm" class="form-label">
+                        Distance (KM)
+                    </label>
+                    <input asp-for="DistanceKm"
+                           type="number"
+                           step="0.1"
+                           min="0.1"
+                           class="form-control" />
+                    <span asp-validation-for="DistanceKm"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="EventType" class="form-label">
+                        Event Type
+                    </label>
+                    <select asp-for="EventType" class="form-select">
+                        <option value="Run">Run</option>
+                        <option value="Walk">Walk</option>
+                        <option value="Cycle">Cycle</option>
+                    </select>
+                    <span asp-validation-for="EventType"
+                          class="text-danger"></span>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.BannerUrl))
+                {
+                    <div class="mb-3">
+                        <label class="form-label">Current Banner</label>
+                        <img src="@Model.BannerUrl"
+                             alt="Current event banner"
+                             class="img-fluid rounded d-block"
+                             style="max-height:200px;" />
+                    </div>
+                }
+
+                <div class="mb-4">
+                    <label asp-for="BannerImage" class="form-label">
+                        Replace Event Banner (Optional)
+                    </label>
+                    <input asp-for="BannerImage"
+                           type="file"
+                           accept=".jpg,.jpeg,.png,.webp"
+                           class="form-control" />
+                    <small class="text-muted">
+                        JPG, PNG or WEBP. Maximum size: 5 MB.
+                    </small>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Save Changes
+                </button>
+
+                <a asp-controller="Organiser"
+                   asp-action="Events"
+                   class="btn btn-outline-secondary ms-2">
+                    Cancel
+                </a>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -40,8 +40,40 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Student/source/repos/prog6212-p1-p2-p3-nhlaks280/RaceDay/RaceDay.Mvc/Views/Organiser/Categories.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pc2VyXENhdGVnb3JpZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Student/source/repos/prog6212-p1-p2-p3-nhlaks280/RaceDay/RaceDay.Mvc/Views/Organiser/CreateCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pc2VyXENyZWF0ZUNhdGVnb3J5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Student/source/repos/prog6212-p1-p2-p3-nhlaks280/RaceDay/RaceDay.Mvc/Views/Organiser/CreateEvent.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pc2VyXENyZWF0ZUV2ZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Student/source/repos/prog6212-p1-p2-p3-nhlaks280/RaceDay/RaceDay.Mvc/Views/Organiser/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pc2VyXERhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Student/source/repos/prog6212-p1-p2-p3-nhlaks280/RaceDay/RaceDay.Mvc/Views/Organiser/EditEvent.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pc2VyXEVkaXRFdmVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Student/source/repos/prog6212-p1-p2-p3-nhlaks280/RaceDay/RaceDay.Mvc/Views/Organiser/Enrolments.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pc2VyXEVucm9sbWVudHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Student/source/repos/prog6212-p1-p2-p3-nhlaks280/RaceDay/RaceDay.Mvc/Views/Organiser/Events.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pc2VyXEV2ZW50cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Student/source/repos/prog6212-p1-p2-p3-nhlaks280/RaceDay/RaceDay.Mvc/Views/Organiser/Results.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pc2VyXFJlc3VsdHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Student/source/repos/prog6212-p1-p2-p3-nhlaks280/RaceDay/RaceDay.Mvc/Views/Organiser/ResultsEntry.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pc2VyXFJlc3VsdHNFbnRyeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Student/source/repos/prog6212-p1-p2-p3-nhlaks280/RaceDay/RaceDay.Mvc/Views/Participant/Enrol.cshtml]
@@ -58,6 +90,18 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Student/source/repos/prog6212-p1-p2-p3-nhlaks280/RaceDay/RaceDay.Mvc/Views/Participant/MyEnrollments.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFydGljaXBhbnRcTXlFbnJvbGxtZW50cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Student/source/repos/prog6212-p1-p2-p3-nhlaks280/RaceDay/RaceDay.Mvc/Views/Participant/MyEnrolments.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFydGljaXBhbnRcTXlFbnJvbG1lbnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Student/source/repos/prog6212-p1-p2-p3-nhlaks280/RaceDay/RaceDay.Mvc/Views/Participant/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFydGljaXBhbnRcUHJvZmlsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Student/source/repos/prog6212-p1-p2-p3-nhlaks280/RaceDay/RaceDay.Mvc/Views/Participant/Results.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFydGljaXBhbnRcUmVzdWx0cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Student/source/repos/prog6212-p1-p2-p3-nhlaks280/RaceDay/RaceDay.Mvc/Views/Shared/Error.cshtml]

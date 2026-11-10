@@ -1,0 +1,27 @@
+﻿@model List<RaceDay.Mvc.Models.ParticipantEnrollmentViewModel>
+
+<div class="container mt-4">
+    <h2>All Participant Enrolments</h2>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Enrolment ID</th>
+                <th>Participant ID</th>
+                <th>Event Category ID</th>
+                <th>Enrolment Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.EnrollmentID</td>
+                    <td>@item.ParticipantID</td>
+                    <td>@item.EventCategoryID</td>
+                    <td>@item.EnrollmentDate.ToLocalTime().ToString("dd MMM yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

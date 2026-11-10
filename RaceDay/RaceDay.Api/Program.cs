@@ -1,14 +1,17 @@
-using Microsoft.OpenApi.Models;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using RaceDay.Api.Data;
+using RaceDay.Api.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+// JWT configuration
 var jwtKey = builder.Configuration["Jwt:Key"]
     ?? throw new InvalidOperationException(
         "JWT key is missing. Check the Jwt:Key setting in appsettings.json.");
@@ -36,11 +39,17 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
+// Database configuration
 builder.Services.AddDbContext<RaceDayContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("RaceDayConnection")));
 
+// Azure Blob Storage service
+builder.Services.AddScoped<AzureBlobStorageService>();
+
+// Swagger configuration
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

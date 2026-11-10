@@ -6,24 +6,31 @@ namespace RaceDay.Api.Models;
 public class RaceEvent
 {
     public int EventID { get; set; }
+
     public int OrganiserID { get; set; }
 
-    [Required, MaxLength(100)]
+    [Required]
+    [MaxLength(150)]
     public string EventName { get; set; } = string.Empty;
 
-    [MaxLength(500)]
     public string? Description { get; set; }
 
     public DateTime EventDate { get; set; }
 
-    [Required, MaxLength(200)]
+    [Required]
+    [MaxLength(200)]
     public string Location { get; set; } = string.Empty;
 
-    public decimal DistanceKm { get; set; }
+    public double DistanceKm { get; set; }
 
-    [Required, MaxLength(20)]
-    public string EventType { get; set; } = "Run";
+    [Required]
+    [MaxLength(50)]
+    public string EventType { get; set; } = string.Empty;
+
+    public string? BannerUrl { get; set; }
 
     public AppUser? Organiser { get; set; }
-    public ICollection<EventCategory> EventCategories { get; set; } = new List<EventCategory>();
+
+    public ICollection<EventCategory> EventCategories { get; set; }
+        = new List<EventCategory>();
 }

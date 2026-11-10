@@ -26,4 +26,7 @@ public class AppUser
     [Required]
     [MaxLength(20)]
     public string Role { get; set; } = "Participant";
+
+    [MaxLength(500)]
+    public string? ProfilePictureUrl { get; set; }
 }

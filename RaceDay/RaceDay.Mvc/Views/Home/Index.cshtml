@@ -1,8 +1,42 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "RaceDay";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-3 fw-bold">RaceDay</h1>
+        <p class="lead text-muted">
+            Your journey. Your challenge. Your finish line.
+        </p>
+    </div>
+
+    <div class="row justify-content-center g-4">
+        <div class="col-md-5">
+            <div class="card shadow border-0 h-100">
+                <div class="card-body text-center p-4">
+                    <h3>Ready to participate?</h3>
+                    <p>Explore events and manage your enrolments.</p>
+                    <a asp-controller="Auth"
+                       asp-action="Login"
+                       class="btn btn-dark w-100">
+                        Sign In
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card shadow border-0 h-100">
+                <div class="card-body text-center p-4">
+                    <h3>New to RaceDay?</h3>
+                    <p>Create an account to get started.</p>
+                    <a asp-controller="Auth"
+                       asp-action="Register"
+                       class="btn btn-outline-dark w-100">
+                        Register
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

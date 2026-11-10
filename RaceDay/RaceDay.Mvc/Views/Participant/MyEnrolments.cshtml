@@ -1,0 +1,69 @@
+﻿@model List<RaceDay.Mvc.Models.ParticipantEnrollmentViewModel>
+
+@{
+    ViewData["Title"] = "My Enrolments";
+    var categories = ViewBag.Categories as List<RaceDay.Mvc.Models.ParticipantEventCategoryViewModel>
+                     ?? new();
+}
+
+<div class="container mt-4">
+    <h2>My Enrolments</h2>
+
+    <a asp-action="Index" class="btn btn-primary mb-3">Browse Events</a>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">You have no enrolments yet.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Event</th>
+                        <th>Category</th>
+                        <th>Enrolment Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var enrolment in Model)
+                    {
+                        var category = categories.FirstOrDefault(
+                        c => c.EventCategoryID == enrolment.EventCategoryID);
+
+                        <tr>
+                            <td>@(category?.Event?.EventName ?? "Unavailable")</td>
+                            <td>@(category?.Category?.CategoryName ?? "Unavailable")</td>
+                            <td>@enrolment.EnrollmentDate.ToLocalTime().ToString("dd MMM yyyy")</td>
+                            <td>
+                                <form asp-action="CancelEnrolment" method="post"
+                                      onsubmit="return confirm('Cancel this enrolment?');">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@enrolment.EnrollmentID" />
+                                    <button class="btn btn-danger btn-sm" type="submit">Cancel</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

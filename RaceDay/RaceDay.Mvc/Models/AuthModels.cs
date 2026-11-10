@@ -1,73 +1,133 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using RaceDay.Mvc.Models;
+using RaceDay.Mvc.Services;
 
-namespace RaceDay.Mvc.Models;
+namespace RaceDay.Mvc.Controllers;
 
-/// <summary>
-/// Holds the information entered on the MVC login page.
-/// </summary>
-public class LoginViewModel
+public class AuthController : Controller
 {
-    [Required(ErrorMessage = "Email is required.")]
-    [EmailAddress(ErrorMessage = "Enter a valid email address.")]
-    public string Email { get; set; } = "";
+    private readonly ApiService _api;
 
-    [Required(ErrorMessage = "Password is required.")]
-    [DataType(DataType.Password)]
-    public string Password { get; set; } = "";
-}
+    public AuthController(ApiService api)
+    {
+        _api = api;
+    }
 
-/// <summary>
-/// Holds the information entered when a new user registers.
-/// </summary>
-public class RegisterViewModel
-{
-    [Required]
-    public string FirstName { get; set; } = "";
+    [HttpGet]
+    public IActionResult Login()
+    {
+        return View(new LoginViewModel());
+    }
 
-    [Required]
-    public string LastName { get; set; } = "";
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login(LoginViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
 
-    [Required]
-    [EmailAddress]
-    public string Email { get; set; } = "";
+        try
+        {
+            var response = await _api.PostAsync<LoginViewModel, ApiLoginResponse>(
+                "api/auth/login", model);
 
-    [Required]
-    [MinLength(8, ErrorMessage = "Password must be at least 8 characters.")]
-    [DataType(DataType.Password)]
-    public string Password { get; set; } = "";
+            if (response == null || string.IsNullOrWhiteSpace(response.Token))
+            {
+                ModelState.AddModelError(
+                    string.Empty, "Invalid email or password.");
+                return View(model);
+            }
 
-    [Required]
-    [DataType(DataType.Password)]
-    [Compare("Password", ErrorMessage = "Passwords do not match.")]
-    public string ConfirmPassword { get; set; } = "";
+            HttpContext.Session.Clear();
 
-    [Required]
-    public string Role { get; set; } = "Participant";
-}
+            HttpContext.Session.SetString("AuthToken", response.Token);
+            HttpContext.Session.SetString("UserID", response.UserID.ToString());
+            HttpContext.Session.SetString("UserName", response.UserName ?? "");
+            HttpContext.Session.SetString("UserEmail", response.Email ?? "");
+            HttpContext.Session.SetString("UserRole", response.Role ?? "");
 
-/// <summary>
-/// Matches the successful login response returned by the Part 2 API.
-/// </summary>
-public class ApiLoginResponse
-{
-    public string? Message { get; set; }
-    public string? Token { get; set; }
-    public int UserID { get; set; }
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
-    public string? Email { get; set; }
-    public string? Role { get; set; }
-}
+            if (!string.IsNullOrWhiteSpace(response.ProfilePictureUrl))
+            {
+                HttpContext.Session.SetString(
+                    "ProfilePictureUrl", response.ProfilePictureUrl);
+            }
 
-/// <summary>
-/// Matches the user details returned after successful registration.
-/// </summary>
-public class ApiRegisterResponse
-{
-    public int UserID { get; set; }
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
-    public string? Email { get; set; }
-    public string? Role { get; set; }
+            if (response.Role == "Organiser")
+                return RedirectToAction("Index", "Organiser");
+
+            if (response.Role == "Participant")
+                return RedirectToAction("Index", "Participant");
+
+            HttpContext.Session.Clear();
+
+            ModelState.AddModelError(
+                string.Empty, "Your account has an invalid role.");
+
+            return View(model);
+        }
+        catch
+        {
+            ModelState.AddModelError(
+                string.Empty, "Unable to connect to the RaceDay service.");
+            return View(model);
+        }
+    }
+
+    [HttpGet]
+    public IActionResult Register()
+    {
+        return View(new RegisterViewModel());
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(RegisterViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        try
+        {
+            var request = new
+            {
+                model.FirstName,
+                model.LastName,
+                model.Email,
+                model.Password,
+                model.Role
+            };
+
+            var response = await _api.PostAsync<object, ApiRegisterResponse>(
+                "api/auth/register", request);
+
+            if (response == null)
+            {
+                ModelState.AddModelError(
+                    string.Empty, "Registration failed. Please try again.");
+                return View(model);
+            }
+
+            TempData["SuccessMessage"] =
+                "Registration successful. Please sign in.";
+
+            return RedirectToAction(nameof(Login));
+        }
+        catch
+        {
+            ModelState.AddModelError(
+                string.Empty, "Unable to complete registration.");
+            return View(model);
+        }
+    }
+
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction(nameof(Login));
+    }
+
+    public IActionResult AccessDenied()
+    {
+        return View();
+    }
 }

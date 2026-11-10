@@ -1,0 +1,27 @@
+﻿@model RaceDay.Mvc.Models.ParticipantEventCategoryViewModel
+
+<div class="container mt-4">
+    <h2>Assign Category to Event</h2>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+    }
+
+    <form asp-action="CreateCategory" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label asp-for="EventID" class="form-label">Event ID</label>
+            <input asp-for="EventID" type="number" min="1" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CategoryID" class="form-label">Category ID</label>
+            <input asp-for="CategoryID" type="number" min="1" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Assign Category</button>
+        <a asp-action="Categories" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

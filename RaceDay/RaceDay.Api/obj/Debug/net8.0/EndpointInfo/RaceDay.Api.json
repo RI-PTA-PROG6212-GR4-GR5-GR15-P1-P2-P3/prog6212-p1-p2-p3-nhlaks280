@@ -67,6 +67,37 @@
         }
       }
     },
+    "/api/auth/profile-picture": {
+      "put": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfilePictureRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfilePictureRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfilePictureRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Categories": {
       "get": {
         "tags": [
@@ -706,6 +737,70 @@
         }
       }
     },
+    "/api/ImageUploads/event-banner": {
+      "post": {
+        "tags": [
+          "ImageUploads"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ImageUploads/profile-picture": {
+      "post": {
+        "tags": [
+          "ImageUploads"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Results": {
       "get": {
         "tags": [
@@ -950,6 +1045,11 @@
             "maxLength": 20,
             "minLength": 1,
             "type": "string"
+          },
+          "profilePictureUrl": {
+            "maxLength": 500,
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1060,6 +1160,16 @@
         },
         "additionalProperties": false
       },
+      "ProfilePictureRequest": {
+        "type": "object",
+        "properties": {
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "RaceEvent": {
         "required": [
           "eventName",
@@ -1077,12 +1187,11 @@
             "format": "int32"
           },
           "eventName": {
-            "maxLength": 100,
+            "maxLength": 150,
             "minLength": 1,
             "type": "string"
           },
           "description": {
-            "maxLength": 500,
             "type": "string",
             "nullable": true
           },
@@ -1100,9 +1209,13 @@
             "format": "double"
           },
           "eventType": {
-            "maxLength": 20,
+            "maxLength": 50,
             "minLength": 1,
             "type": "string"
+          },
+          "bannerUrl": {
+            "type": "string",
+            "nullable": true
           },
           "organiser": {
             "$ref": "#/components/schemas/AppUser"

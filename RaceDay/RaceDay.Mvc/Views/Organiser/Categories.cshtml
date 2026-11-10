@@ -1,0 +1,32 @@
+﻿@model List<RaceDay.Mvc.Models.ParticipantEventCategoryViewModel>
+
+<div class="container mt-4">
+    <h2>Manage Event Categories</h2>
+
+    <a asp-action="CreateCategory" class="btn btn-success mb-3">Assign Category</a>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Event Category ID</th>
+                <th>Event</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.EventCategoryID</td>
+                    <td>@item.Event?.EventName</td>
+                    <td>@item.Category?.CategoryName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

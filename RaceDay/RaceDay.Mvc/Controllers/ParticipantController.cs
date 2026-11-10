@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using RaceDay.Mvc.Filters;
 using RaceDay.Mvc.Models;
 using RaceDay.Mvc.Services;
@@ -9,11 +10,18 @@ namespace RaceDay.Mvc.Controllers;
 public class ParticipantController : Controller
 {
     private readonly ApiService _api;
+    private readonly ImageUploadService _imageUpload;
 
-    public ParticipantController(ApiService api)
+    public ParticipantController(
+        ApiService api,
+        ImageUploadService imageUpload)
     {
         _api = api;
+        _imageUpload = imageUpload;
     }
+
+    private string? Token =>
+        HttpContext.Session.GetString("AuthToken");
 
     public async Task<IActionResult> Index()
     {
@@ -21,99 +29,169 @@ public class ParticipantController : Controller
 
         try
         {
-            var events = await _api.GetAsync<List<RaceEventViewModel>>(
-                "api/Events");
+            var categories =
+                await _api.GetAsync<List<ParticipantEventCategoryViewModel>>(
+                    "api/EventCategories");
 
-            return View(events ?? new List<RaceEventViewModel>());
+            return View(categories ?? new());
         }
-        catch (Exception)
+        catch
         {
-            ViewBag.ErrorMessage = "Unable to load events. Please try again.";
-            return View(new List<RaceEventViewModel>());
+            ViewBag.ErrorMessage = "Unable to load events.";
+            return View(new List<ParticipantEventCategoryViewModel>());
         }
-    }
-
-    public async Task<IActionResult> EventCategories(int id)
-    {
-        var eventCategories =
-            await _api.GetAsync<List<EventCategoryViewModel>>(
-                "api/EventCategories");
-
-        var selected = eventCategories?
-            .Where(ec => ec.EventID == id)
-            .ToList() ?? new List<EventCategoryViewModel>();
-
-        ViewBag.EventName = selected.FirstOrDefault()?.Event?.EventName
-                            ?? "Available event categories";
-
-        return View(selected);
-    }
-    public async Task<IActionResult> Enrol(int id)
-    {
-        var token = HttpContext.Session.GetString("AuthToken");
-
-        var eventCategories =
-            await _api.GetAsync<List<EventCategoryViewModel>>(
-                "api/EventCategories", token);
-
-        var selected = eventCategories?
-            .FirstOrDefault(ec => ec.EventCategoryID == id);
-
-        if (selected == null)
-            return NotFound("Event category not found.");
-
-        ViewBag.EventCategory = selected;
-        return View(new EnrollmentCreateViewModel
-        {
-            EventCategoryID = id
-        });
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Enrol(EnrollmentCreateViewModel model)
+    public async Task<IActionResult> Enrol(CreateEnrollmentViewModel model)
     {
-        if (!ModelState.IsValid)
-            return View(model);
-
-        var token = HttpContext.Session.GetString("AuthToken");
-
-        var request = new
+        if (!ModelState.IsValid || model.EventCategoryID <= 0)
         {
-            EventCategoryID = model.EventCategoryID
-        };
-
-        var result = await _api.PostAsync<object, EnrollmentResponseViewModel>(
-            "api/Enrollments", request, token);
-
-        if (result == null)
-        {
-            TempData["Error"] =
-                "Enrolment failed. You may already be enrolled or the category may be unavailable.";
-
+            TempData["ErrorMessage"] = "Please select a valid category.";
             return RedirectToAction(nameof(Index));
         }
 
-        TempData["Success"] = "Your enrolment was successful!";
-        return RedirectToAction(nameof(MyEnrollments));
+        try
+        {
+            var request = new { EventCategoryID = model.EventCategoryID };
+
+            var result =
+                await _api.PostAsync<object, ParticipantEnrollmentViewModel>(
+                    "api/Enrollments", request, Token);
+
+            TempData[result == null ? "ErrorMessage" : "SuccessMessage"] =
+                result == null
+                    ? "Enrolment failed. You may already be enrolled."
+                    : "You have successfully enrolled.";
+        }
+        catch
+        {
+            TempData["ErrorMessage"] = "Unable to complete enrolment.";
+        }
+
+        return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> MyEnrollments()
+    public async Task<IActionResult> MyEnrolments()
     {
-        var token = HttpContext.Session.GetString("AuthToken");
+        try
+        {
+            var enrolments =
+                await _api.GetAsync<List<ParticipantEnrollmentViewModel>>(
+                    "api/Enrollments", Token);
+
+            var categories =
+                await _api.GetAsync<List<ParticipantEventCategoryViewModel>>(
+                    "api/EventCategories");
+
+            ViewBag.Categories = categories ?? new();
+
+            return View(enrolments ?? new());
+        }
+        catch
+        {
+            ViewBag.ErrorMessage = "Unable to load your enrolments.";
+            ViewBag.Categories =
+                new List<ParticipantEventCategoryViewModel>();
+
+            return View(new List<ParticipantEnrollmentViewModel>());
+        }
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CancelEnrolment(int id)
+    {
+        try
+        {
+            var success =
+                await _api.DeleteAsync($"api/Enrollments/{id}", Token);
+
+            TempData[success ? "SuccessMessage" : "ErrorMessage"] =
+                success
+                    ? "Enrolment cancelled."
+                    : "Cancellation failed. An enrolment with a result cannot be deleted.";
+        }
+        catch
+        {
+            TempData["ErrorMessage"] = "Unable to cancel enrolment.";
+        }
+
+        return RedirectToAction(nameof(MyEnrolments));
+    }
+
+    public async Task<IActionResult> Results()
+    {
+        try
+        {
+            var results =
+                await _api.GetAsync<List<ResultViewModel>>(
+                    "api/Results", Token);
+
+            return View(results ?? new());
+        }
+        catch
+        {
+            ViewBag.ErrorMessage = "Unable to load your results.";
+            return View(new List<ResultViewModel>());
+        }
+    }
+
+    public IActionResult Profile()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UploadProfilePicture(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            TempData["ErrorMessage"] = "Please select an image.";
+            return RedirectToAction(nameof(Profile));
+        }
 
         try
         {
-            var enrollments =
-                await _api.GetAsync<List<EnrollmentResponseViewModel>>(
-                    "api/Enrollments", token);
+            // Upload the image to Azure through the API.
+            var imageUrl = await _imageUpload.UploadImageAsync(
+                "api/ImageUploads/profile-picture",
+                file,
+                Token);
 
-            return View(enrollments ?? new List<EnrollmentResponseViewModel>());
+            if (string.IsNullOrWhiteSpace(imageUrl))
+            {
+                TempData["ErrorMessage"] = "Image upload failed.";
+                return RedirectToAction(nameof(Profile));
+            }
+
+            // Save the image URL permanently in the participant database record.
+            var saved = await _api.PutAsync(
+                "api/auth/profile-picture",
+                new { ImageUrl = imageUrl },
+                Token);
+
+            if (!saved)
+            {
+                TempData["ErrorMessage"] =
+                    "The image uploaded, but its URL could not be saved to your profile.";
+
+                return RedirectToAction(nameof(Profile));
+            }
+
+            HttpContext.Session.SetString("ProfilePictureUrl", imageUrl);
+
+            TempData["SuccessMessage"] =
+                "Profile picture uploaded and saved successfully.";
         }
-        catch (Exception)
+        catch
         {
-            ViewBag.ErrorMessage = "Unable to load your enrolments.";
-            return View(new List<EnrollmentResponseViewModel>());
+            TempData["ErrorMessage"] =
+                "Unable to upload or save your profile picture.";
         }
+
+        return RedirectToAction(nameof(Profile));
     }
 }

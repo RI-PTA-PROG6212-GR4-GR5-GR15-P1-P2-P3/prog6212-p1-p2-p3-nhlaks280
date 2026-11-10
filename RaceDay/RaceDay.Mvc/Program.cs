@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Register MVC controllers and views.
 builder.Services.AddControllersWithViews();
 
-// Configure session storage for authenticated users.
+// Configure session storage.
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options =>
@@ -16,14 +16,33 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// Register the HTTP client used to communicate with the Part 2 API.
+// Register the API service.
 builder.Services.AddHttpClient<ApiService>(client =>
 {
     var apiUrl = builder.Configuration["ApiSettings:BaseUrl"];
-    client.BaseAddress = new Uri(apiUrl!);
+
+    if (string.IsNullOrWhiteSpace(apiUrl))
+    {
+        throw new InvalidOperationException(
+            "API BaseUrl is missing from appsettings.json.");
+    }
+
+    client.BaseAddress = new Uri(apiUrl);
 });
 
+// Register the image upload service.
+builder.Services.AddHttpClient<ImageUploadService>(client =>
+{
+    var apiUrl = builder.Configuration["ApiSettings:BaseUrl"];
 
+    if (string.IsNullOrWhiteSpace(apiUrl))
+    {
+        throw new InvalidOperationException(
+            "API BaseUrl is missing from appsettings.json.");
+    }
+
+    client.BaseAddress = new Uri(apiUrl);
+});
 
 var app = builder.Build();
 
